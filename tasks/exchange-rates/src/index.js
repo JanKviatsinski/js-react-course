@@ -6,7 +6,7 @@ import './index.css'
 ReactDOM.render(
     <React.StrictMode>
         <ExchangeRates
-            value = 'jkjl'
+        className='Exchange-rates'
         />
     </React.StrictMode>,
     document.getElementById('root')
