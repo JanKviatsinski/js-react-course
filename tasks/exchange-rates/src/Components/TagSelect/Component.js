@@ -9,8 +9,7 @@ export function TagSelect(props) {
                 return <option key={optionAbbreviation} value={optionAbbreviation}>
                     {optionText}
                 </option>
-            }
-            )}
+            })}
         </select>
     )
 }

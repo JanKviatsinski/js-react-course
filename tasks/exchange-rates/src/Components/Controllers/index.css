@@ -1,0 +1,14 @@
+.exchange-rates__controllers{
+    display: flex;
+    flex-direction: row;
+    /*justify-content: center;*/
+    /*align-items: center;*/
+}
+.controllers__values{
+    text-align: right;
+    margin-right: 15px;
+}
+
+.controllers__currencies{
+    text-align: left;
+}
