@@ -12,45 +12,25 @@ export function ExchangeRates(props) {
 
     const onChangeCurrencyFrom = function (e) {
         currencyFrom.current = e.target.value
-
-        convertCurrency(valueFrom.current, currencyFrom.current, currencyTo.current)
-            .then((res) => {
-                valueTo.current = res
-                setString(`${valueFrom.current} ${currencyFrom.current} = ${res} ${currencyTo.current}`)
-            })
+        convertCurrency(false, valueFrom.current)
     }
 
     const onChangeValueFrom = function (e) {
         valueFrom.current = e.target.value
-
-        convertCurrency(valueFrom.current, currencyFrom.current, currencyTo.current)
-            .then((res) => {
-                valueTo.current = res
-                setString(`${valueFrom.current} ${currencyFrom.current} = ${res} ${currencyTo.current}`)
-            })
+        convertCurrency(false, valueFrom.current)
     }
 
     const onChangeCurrencyTo = function (e) {
         currencyTo.current = e.target.value
-
-        convertCurrency(valueTo.current, currencyTo.current, currencyFrom.current)
-            .then((res) => {
-                valueFrom.current = res
-                setString(`${valueTo.current} ${currencyTo.current} = ${res} ${currencyFrom.current}`)
-            })
+        convertCurrency(true, valueTo.current)
     }
 
     const onChangeValueTo = function (e) {
         valueTo.current = e.target.value
-
-        convertCurrency(valueTo.current, currencyTo.current, currencyFrom.current)
-            .then((res) => {
-                valueFrom.current = res
-                setString(`${valueTo.current} ${currencyTo.current} = ${res} ${currencyFrom.current}`)
-            })
+        convertCurrency(true, valueTo.current)
     }
 
-    async function convertCurrency(value, from, to) {
+    async function convertCurrency(reverse, value) {
         // const responseGetRates = await fetch(URL_GET_RATES)
         // const dataRates = await responseGetRates.json()
         const x = {
@@ -60,11 +40,19 @@ export function ExchangeRates(props) {
         }
         // const fromRates = dataRates.rates[from]
         // const toRates = dataRates.rates[to]
-        const fromRates = x[from]
-        const toRates = x[to]
-        const as = (+value * toRates / fromRates).toFixed(2)
-        console.log(+value, from, +as, to)
-        return +as
+        const fromRates = x[currencyFrom.current]
+        const toRates = x[currencyTo.current]
+        let result
+
+        if (reverse) {
+            result = (+value * fromRates / toRates).toFixed(2)
+            valueFrom.current = result
+            setString(`${valueTo.current} ${currencyTo.current} = ${result} ${currencyFrom.current}`)
+        } else {
+            result = (+value * toRates / fromRates).toFixed(2)
+            valueTo.current = result
+            setString(`${valueFrom.current} ${currencyFrom.current} = ${result} ${currencyTo.current}`)
+        }
     }
 
     return (
