@@ -4,30 +4,30 @@ import {USD, EUR, BYN, USD_ABBR, EUR_ABBR, BYN_ABBR, URL_GET_RATES} from '../../
 import './index.css'
 
 export function ExchangeRates(props) {
-    let currencyFrom = useRef(USD)
-    let currencyTo = useRef(USD)
-    let valueFrom = useRef(0)
-    let valueTo = useRef(0)
+    let currencyOne = useRef(USD)
+    let currencyTwo = useRef(USD)
+    let valueOne = useRef(0)
+    let valueTwo = useRef(0)
     const [string, setString] = useState('0')
 
-    const onChangeCurrencyFrom = function (e) {
-        currencyFrom.current = e.target.value
-        convertCurrency(false, valueFrom.current)
+    const onCurrencyOne = function (e) {
+        currencyOne.current = e.target.value
+        convertCurrency(false, valueOne.current)
     }
 
-    const onChangeValueFrom = function (e) {
-        valueFrom.current = e.target.value
-        convertCurrency(false, valueFrom.current)
+    const onValueOne = function (e) {
+        valueOne.current = e.target.value
+        convertCurrency(false, valueOne.current)
     }
 
-    const onChangeCurrencyTo = function (e) {
-        currencyTo.current = e.target.value
-        convertCurrency(true, valueTo.current)
+    const onCurrencyTwo = function (e) {
+        currencyTwo.current = e.target.value
+        convertCurrency(true, valueTwo.current)
     }
 
-    const onChangeValueTo = function (e) {
-        valueTo.current = e.target.value
-        convertCurrency(true, valueTo.current)
+    const onValueTwo = function (e) {
+        valueTwo.current = e.target.value
+        convertCurrency(true, valueTwo.current)
     }
 
     async function convertCurrency(reverse, value) {
@@ -40,18 +40,18 @@ export function ExchangeRates(props) {
         }
         // const fromRates = dataRates.rates[from]
         // const toRates = dataRates.rates[to]
-        const fromRates = x[currencyFrom.current]
-        const toRates = x[currencyTo.current]
+        const oneRates = x[currencyOne.current]
+        const twoRates = x[currencyTwo.current]
         let result
 
         if (reverse) {
-            result = (+value * fromRates / toRates).toFixed(2)
-            valueFrom.current = result
-            setString(`${valueTo.current} ${currencyTo.current} = ${result} ${currencyFrom.current}`)
+            result = (+value * oneRates / twoRates).toFixed(2)
+            valueOne.current = result
+            setString(`${valueTwo.current} ${currencyTwo.current} = ${result} ${currencyOne.current}`)
         } else {
-            result = (+value * toRates / fromRates).toFixed(2)
-            valueTo.current = result
-            setString(`${valueFrom.current} ${currencyFrom.current} = ${result} ${currencyTo.current}`)
+            result = (+value * twoRates / oneRates).toFixed(2)
+            valueTwo.current = result
+            setString(`${valueOne.current} ${currencyOne.current} = ${result} ${currencyTwo.current}`)
         }
     }
 
@@ -64,10 +64,12 @@ export function ExchangeRates(props) {
             <Controllers
                 wrapClassName={`${props.className}__controllers`}
                 сurrencySelectionClassName={'controllers__currencies'}
+                //добавить дивы
+                //изменить классы
                 сurrencySelection={[
                     {
                         className: 'controllers__currency-from',
-                        'on': onChangeCurrencyFrom,
+                        'on': onCurrencyOne,
                         key: 'currency-from',
                         options: [
                             [USD, USD_ABBR],
@@ -77,7 +79,7 @@ export function ExchangeRates(props) {
                     },
                     {
                         className: 'controllers__currency-to',
-                        'on': onChangeCurrencyTo,
+                        'on': onCurrencyTwo,
                         key: 'currency-to',
                         options: [
                             [USD, USD_ABBR],
@@ -91,17 +93,17 @@ export function ExchangeRates(props) {
                     {
                         className: 'controllers__value-from',
                         type: 'number',
-                        'on': onChangeValueFrom,
+                        'on': onValueOne,
                         key: 'value-from',
-                        value: valueFrom.current
+                        value: valueOne.current
 
                     },
                     {
                         className: 'controllers__value-to',
                         type: 'number',
-                        'on': onChangeValueTo,
+                        'on': onValueTwo,
                         key: 'value-to',
-                        value: valueTo.current
+                        value: valueTwo.current
                     }
                 ]}
             />
