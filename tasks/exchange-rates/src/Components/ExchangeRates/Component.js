@@ -6,11 +6,9 @@ import './index.css'
 export function ExchangeRates(props) {
     let currencyFrom = useRef(USD)
     let currencyTo = useRef(USD)
-    let valueFrom = useRef(3)
-    let valueTo = useRef(3)
-    let value = useRef(3)
-    let string = useRef('0')
-    const [result, setResult] = useState(0.00)
+    let valueFrom = useRef(0)
+    let valueTo = useRef(0)
+    const [string, setString] = useState('0')
 
     const onChangeCurrencyFrom = function (e) {
         currencyFrom.current = e.target.value
@@ -18,43 +16,37 @@ export function ExchangeRates(props) {
         convertCurrency(valueFrom.current, currencyFrom.current, currencyTo.current)
             .then((res) => {
                 valueTo.current = res
-                string.current = `${valueFrom.current} ${currencyFrom.current} = ${res} ${currencyTo.current}`
-                setResult(res)
+                setString(`${valueFrom.current} ${currencyFrom.current} = ${res} ${currencyTo.current}`)
             })
     }
 
     const onChangeValueFrom = function (e) {
-        value.current = e.target.value
         valueFrom.current = e.target.value
 
-        convertCurrency(value.current, currencyFrom.current, currencyTo.current)
+        convertCurrency(valueFrom.current, currencyFrom.current, currencyTo.current)
             .then((res) => {
                 valueTo.current = res
-                string.current = `${value.current} ${currencyFrom.current} = ${res} ${currencyTo.current}`
-                setResult(res)
+                setString(`${valueFrom.current} ${currencyFrom.current} = ${res} ${currencyTo.current}`)
             })
     }
 
     const onChangeCurrencyTo = function (e) {
         currencyTo.current = e.target.value
-// debugger
+
         convertCurrency(valueTo.current, currencyTo.current, currencyFrom.current)
             .then((res) => {
                 valueFrom.current = res
-                string.current = `${valueTo.current} ${currencyTo.current} = ${res} ${currencyFrom.current}`
-                setResult(res)
+                setString(`${valueTo.current} ${currencyTo.current} = ${res} ${currencyFrom.current}`)
             })
     }
 
     const onChangeValueTo = function (e) {
-        value.current = e.target.value
         valueTo.current = e.target.value
 
-        convertCurrency(value.current, currencyTo.current, currencyFrom.current)
+        convertCurrency(valueTo.current, currencyTo.current, currencyFrom.current)
             .then((res) => {
                 valueFrom.current = res
-                string.current = `${value.current} ${currencyTo.current} = ${res} ${currencyFrom.current}`
-                setResult(res)
+                setString(`${valueTo.current} ${currencyTo.current} = ${res} ${currencyFrom.current}`)
             })
     }
 
@@ -78,8 +70,7 @@ export function ExchangeRates(props) {
     return (
         <div className={props.className}>
             <p>
-                {string.current}
-                {/*{value.current} {currencyFrom.current} {result} {currencyTo.current}*/}
+                {string}
             </p>
 
             <Controllers
@@ -111,7 +102,7 @@ export function ExchangeRates(props) {
                 currencyValue={[
                     {
                         className: 'controllers__value-from',
-                        type: 'text',
+                        type: 'number',
                         'on': onChangeValueFrom,
                         key: 'value-from',
                         value: valueFrom.current
@@ -119,7 +110,7 @@ export function ExchangeRates(props) {
                     },
                     {
                         className: 'controllers__value-to',
-                        type: 'text',
+                        type: 'number',
                         'on': onChangeValueTo,
                         key: 'value-to',
                         value: valueTo.current
