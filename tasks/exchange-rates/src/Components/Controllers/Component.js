@@ -6,24 +6,24 @@ import './index.css'
 export function Controllers(props) {
     return (
         <div className={props.wrapClassName}>
-            <div className={props.currencyValuesClassName}>
-            {props.currencyValues.map((curr) => (
+            <div className={props.valuesClassName}>
+            {props.values.map((curr) => (
                     <Input
                         className={curr.className}
                         type={curr.type}
-                        onChange={curr.on}
+                        on={curr.on}
                         key={curr.key}
                         value={curr.value}
                     />
                 ))}
             </div>
 
-            <div className={props.currencySelectionClassName}>
-            {props.currencySelection.map((curr) => (
+            <div className={props.currenciesClassName}>
+            {props.currencies.map((curr) => (
                 <TagSelect
                     className={curr.className}
                     currencies={curr.currencies}
-                    onChange={curr.on}
+                    on={curr.on}
                     key={curr.key}
                 />
             ))}

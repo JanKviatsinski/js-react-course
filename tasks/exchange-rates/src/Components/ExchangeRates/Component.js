@@ -68,28 +68,14 @@ export function ExchangeRates(props) {
 
             <Controllers
                 wrapClassName={`${props.className}__controllers`}
-                currencySelectionClassName={'controllers__currencies'}
-                currencySelection={[
-                    {
-                        className: 'controllers__currency-one',
-                        'on': onCurrencyOne,
-                        key: 'currency-from',
-                        currencies: CURRENCIES
-                    },
-                    {
-                        className: 'controllers__currency-two',
-                        'on': onCurrencyTwo,
-                        key: 'currency-to',
-                        currencies: CURRENCIES
-                    },
-                ]}
-                currencyValuesClassName={'controllers__values'}
-                currencyValues={[
+
+                valuesClassName={'controllers__values'}
+                values={[
                     {
                         className: 'controllers__value-one',
                         type: 'number',
                         'on': onValueOne,
-                        key: 'value-from',
+                        key: 'value-one',
                         value: valueOne.current
 
                     },
@@ -97,9 +83,25 @@ export function ExchangeRates(props) {
                         className: 'controllers__value-two',
                         type: 'number',
                         'on': onValueTwo,
-                        key: 'value-to',
+                        key: 'value-two',
                         value: valueTwo.current
                     }
+                ]}
+
+                currenciesClassName={'controllers__currencies'}
+                currencies={[
+                    {
+                        className: 'controllers__currency-one',
+                        'on': onCurrencyOne,
+                        key: 'currency-one',
+                        currencies: CURRENCIES
+                    },
+                    {
+                        className: 'controllers__currency-two',
+                        'on': onCurrencyTwo,
+                        key: 'currency-two',
+                        currencies: CURRENCIES
+                    },
                 ]}
             />
         </div>
