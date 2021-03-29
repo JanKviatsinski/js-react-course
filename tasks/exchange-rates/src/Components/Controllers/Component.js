@@ -1,13 +1,13 @@
 import React from 'react'
-import {TagSelect} from '../TagSelect/Component.js'
-import {Input} from '../Input/Component.js'
+import { TagSelect } from '../TagSelect/Component.js'
+import { Input } from '../Input/Component.js'
 import './index.css'
 
 export function Controllers(props) {
     return (
         <div className={props.wrapClassName}>
-            <div className={props.currencyValueClassName}>
-            {props.currencyValue.map((curr) => (
+            <div className={props.currencyValuesClassName}>
+            {props.currencyValues.map((curr) => (
                     <Input
                         className={curr.className}
                         type={curr.type}
@@ -18,11 +18,11 @@ export function Controllers(props) {
                 ))}
             </div>
 
-            <div className={props.сurrencySelectionClassName}>
-            {props.сurrencySelection.map((curr) => (
+            <div className={props.currencySelectionClassName}>
+            {props.currencySelection.map((curr) => (
                 <TagSelect
                     className={curr.className}
-                    options={curr.options}
+                    currencies={curr.currencies}
                     onChange={curr.on}
                     key={curr.key}
                 />

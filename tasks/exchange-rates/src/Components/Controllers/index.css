@@ -1,17 +1,28 @@
-.exchange-rates__controllers{
+.exchange-rates__controllers {
     display: flex;
     flex-direction: row;
     justify-content: center;
 }
-.controllers__values{
+
+.controllers__values {
     display: flex;
     flex-direction: column;
     text-align: right;
     margin-right: 15px;
 }
 
-.controllers__currencies{
+.controllers__value-one {
+    margin-bottom: 15px;
+}
+
+.controllers__currencies {
     display: flex;
     flex-direction: column;
     text-align: left;
 }
+
+.controllers__currency-one {
+    margin-bottom: 15px;
+}
+
+

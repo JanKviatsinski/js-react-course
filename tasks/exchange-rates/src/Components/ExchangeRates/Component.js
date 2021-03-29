@@ -1,14 +1,14 @@
 import React, {useState, useRef} from 'react'
 import {Controllers} from '../Controllers/Component.js'
-import {USD, EUR, BYN, USD_ABBR, EUR_ABBR, BYN_ABBR, URL_GET_RATES} from '../../constants.js'
+import {CURRENCIES, INITIAL_STRING, URL_GET_RATES, ERROR_STRING} from '../../constants.js'
 import './index.css'
 
 export function ExchangeRates(props) {
-    let currencyOne = useRef(USD)
-    let currencyTwo = useRef(USD)
+    let currencyOne = useRef(Object.keys(CURRENCIES)[0])
+    let currencyTwo = useRef(Object.keys(CURRENCIES)[0])
     let valueOne = useRef(0)
     let valueTwo = useRef(0)
-    const [string, setString] = useState('0')
+    const [string, setString] = useState(INITIAL_STRING)
 
     const onCurrencyOne = function (e) {
         currencyOne.current = e.target.value
@@ -31,28 +31,33 @@ export function ExchangeRates(props) {
     }
 
     async function convertCurrency(reverse, value) {
-        // const responseGetRates = await fetch(URL_GET_RATES)
-        // const dataRates = await responseGetRates.json()
-        const x = {
-            USD: 2,
-            EUR: 1,
-            BYN: 3
-        }
-        // const fromRates = dataRates.rates[from]
-        // const toRates = dataRates.rates[to]
-        const oneRates = x[currencyOne.current]
-        const twoRates = x[currencyTwo.current]
-        let result
+        try {
+            const responseGetRates = await fetch(URL_GET_RATES)
+            const dataRates = await responseGetRates.json()
 
-        if (reverse) {
-            result = (+value * oneRates / twoRates).toFixed(2)
-            valueOne.current = result
-            setString(`${valueTwo.current} ${currencyTwo.current} = ${result} ${currencyOne.current}`)
-        } else {
-            result = (+value * twoRates / oneRates).toFixed(2)
-            valueTwo.current = result
-            setString(`${valueOne.current} ${currencyOne.current} = ${result} ${currencyTwo.current}`)
+            if (dataRates.error) {
+                throw new Error(dataRates.error)
+            }
+
+            const oneRates = dataRates.rates[currencyOne.current]
+            const twoRates = dataRates.rates[currencyTwo.current]
+
+            let result
+
+            if (reverse) {
+                result = (+value * oneRates / twoRates).toFixed(2)
+                valueOne.current = result
+                setString(`${valueTwo.current} ${CURRENCIES[currencyTwo.current]} = ${result} ${CURRENCIES[currencyOne.current]}`)
+            } else {
+                result = (+value * twoRates / oneRates).toFixed(2)
+                valueTwo.current = result
+                setString(`${valueOne.current} ${CURRENCIES[currencyOne.current]} = ${result} ${CURRENCIES[currencyTwo.current]}`)
+            }
+        } catch (e) {
+            console.error(e)
+            setString(ERROR_STRING)
         }
+
     }
 
     return (
@@ -63,35 +68,25 @@ export function ExchangeRates(props) {
 
             <Controllers
                 wrapClassName={`${props.className}__controllers`}
-                сurrencySelectionClassName={'controllers__currencies'}
-                //добавить дивы
-                //изменить классы
-                сurrencySelection={[
+                currencySelectionClassName={'controllers__currencies'}
+                currencySelection={[
                     {
-                        className: 'controllers__currency-from',
+                        className: 'controllers__currency-one',
                         'on': onCurrencyOne,
                         key: 'currency-from',
-                        options: [
-                            [USD, USD_ABBR],
-                            [EUR, EUR_ABBR],
-                            [BYN, BYN_ABBR]
-                        ]
+                        currencies: CURRENCIES
                     },
                     {
-                        className: 'controllers__currency-to',
+                        className: 'controllers__currency-two',
                         'on': onCurrencyTwo,
                         key: 'currency-to',
-                        options: [
-                            [USD, USD_ABBR],
-                            [EUR, EUR_ABBR],
-                            [BYN, BYN_ABBR]
-                        ]
+                        currencies: CURRENCIES
                     },
                 ]}
-                currencyValueClassName={'controllers__values'}
-                currencyValue={[
+                currencyValuesClassName={'controllers__values'}
+                currencyValues={[
                     {
-                        className: 'controllers__value-from',
+                        className: 'controllers__value-one',
                         type: 'number',
                         'on': onValueOne,
                         key: 'value-from',
@@ -99,7 +94,7 @@ export function ExchangeRates(props) {
 
                     },
                     {
-                        className: 'controllers__value-to',
+                        className: 'controllers__value-two',
                         type: 'number',
                         'on': onValueTwo,
                         key: 'value-to',
