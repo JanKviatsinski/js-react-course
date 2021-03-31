@@ -1,13 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { ExchangeRates } from './Components/ExchangeRates/Component.js'
+import {BrowserRouter as Router} from 'react-router-dom'
+import {ExchangeRates} from './Components/ExchangeRates/Component.js'
 import './index.css'
 
 ReactDOM.render(
-    <React.StrictMode>
+    <Router>
         <ExchangeRates
-        className='exchange-rates'
+            className='exchange-rates'
         />
-    </React.StrictMode>,
-    document.getElementById('root')
+    </Router>,
+document.getElementById('root')
 )

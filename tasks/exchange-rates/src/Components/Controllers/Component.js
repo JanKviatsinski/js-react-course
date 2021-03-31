@@ -34,11 +34,11 @@ function Controllers(props) {
 }
 
 Controllers.propTypes = {
-    wrapClassName: PropTypes.string/*isRequired*/,
-    valuesClassName: PropTypes.string,
-    values: PropTypes.arrayOf(PropTypes.object),
-    currenciesClassName: PropTypes.string,
-    currencies: PropTypes.arrayOf(PropTypes.object),
+    wrapClassName: PropTypes.string.isRequired,
+    valuesClassName: PropTypes.string.isRequired,
+    values: PropTypes.arrayOf(PropTypes.object).isRequired,
+    currenciesClassName: PropTypes.string.isRequired,
+    currencies: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
 export {Controllers}

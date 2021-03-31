@@ -1,59 +1,68 @@
-import React, {useState, useRef} from 'react'
+import React, {useState} from 'react'
+import {
+    Switch,
+    Route,
+} from  'react-router-dom'
 import PropTypes from 'prop-types'
 import {Controllers} from '../Controllers/Component.js'
 import {CURRENCIES, INITIAL_STRING, URL_GET_RATES, ERROR_STRING} from '../../constants.js'
 import './index.css'
 
 function ExchangeRates(props) {
-    let currencyOne = useRef(Object.keys(CURRENCIES)[0])
-    let currencyTwo = useRef(Object.keys(CURRENCIES)[0])
-    let valueOne = useRef(0)
-    let valueTwo = useRef(0)
+    const [currencyOne, setCurrencyOne] = useState(Object.keys(CURRENCIES)[0])
+    const [currencyTwo, setCurrencyTwo] = useState(Object.keys(CURRENCIES)[0])
+    const [valueOne, setValueOne] = useState(0)
+    const [valueTwo, setValueTwo] = useState(0)
     const [string, setString] = useState(INITIAL_STRING)
 
     const onCurrencyOne = function (e) {
-        currencyOne.current = e.target.value
-        convertCurrency(valueOne.current)
+        setCurrencyOne(e.target.value)
+        convertCurrency(valueOne, currencyOne, currencyTwo).then((res) => {
+            setValueTwo(res)
+            setString(`${valueOne} ${CURRENCIES[currencyOne]} = ${res} ${CURRENCIES[currencyTwo]}`)
+        })
     }
 
     const onValueOne = function (e) {
-        valueOne.current = e.target.value
-        convertCurrency(valueOne.current)
+        setValueOne(e.target.value)
+        convertCurrency(valueOne, currencyOne, currencyTwo).then((res) => {
+            setValueTwo(res)
+            setString(`${valueOne} ${CURRENCIES[currencyOne]} = ${res} ${CURRENCIES[currencyTwo]}`)
+        })
     }
 
     const onCurrencyTwo = function (e) {
-        currencyTwo.current = e.target.value
-        convertCurrency(valueTwo.current)
+        setCurrencyTwo(e.target.value)
+        convertCurrency(valueTwo, currencyTwo, currencyOne).then((res) => {
+            setValueOne(res)
+            setString(`${valueTwo} ${CURRENCIES[currencyTwo]} = ${res} ${CURRENCIES[currencyOne]}`)
+        })
     }
-
+    let x = 1
     const onValueTwo = function (e) {
-        valueTwo.current = e.target.value
-        convertCurrency(valueTwo.current)
+        setValueTwo(e.target.value)
+        x = 2
+        console.log(valueTwo, x)
+
+        convertCurrency(valueTwo, currencyTwo, currencyOne).then((res) => {
+            setValueOne(res)
+            setString(`${valueTwo} ${CURRENCIES[currencyTwo]} = ${res} ${CURRENCIES[currencyOne]}`)
+        })
     }
 
-    async function convertCurrency(value) {
+    async function convertCurrency(value, currencyFrom, currencyTo) {
         try {
             const responseGetRates = await fetch(URL_GET_RATES)
             const dataRates = await responseGetRates.json()
-
+console.log(value, currencyFrom, currencyTo)
             if (dataRates.error) {
                 throw new Error(dataRates.error)
             }
 
-            const oneRates = dataRates.rates[currencyOne.current]
-            const twoRates = dataRates.rates[currencyTwo.current]
+            const fromRates = dataRates.rates[currencyFrom]
+            const toRates = dataRates.rates[currencyTo]
 
-            let result
-
-            if (value === valueOne.current) {
-                result = (+value * twoRates / oneRates).toFixed(2)
-                valueTwo.current = result
-                setString(`${valueOne.current} ${CURRENCIES[currencyOne.current]} = ${result} ${CURRENCIES[currencyTwo.current]}`)
-            } else {
-                result = (+value * oneRates / twoRates).toFixed(2)
-                valueOne.current = result
-                setString(`${valueTwo.current} ${CURRENCIES[currencyTwo.current]} = ${result} ${CURRENCIES[currencyOne.current]}`)
-            }
+            return (+value * toRates / fromRates).toFixed(2)
         } catch (e) {
             console.error(e)
             setString(ERROR_STRING)
@@ -77,15 +86,14 @@ function ExchangeRates(props) {
                         type: 'number',
                         'on': onValueOne,
                         key: 'value-one',
-                        value: valueOne.current
-
+                        value: valueOne
                     },
                     {
                         className: 'controllers__value-two',
                         type: 'number',
                         'on': onValueTwo,
                         key: 'value-two',
-                        value: valueTwo.current
+                        value: valueTwo
                     }
                 ]}
 

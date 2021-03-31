@@ -1,6 +1,7 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-export function TagSelect(props) {
+function TagSelect(props) {
     const options = []
 
     for (let currency in props.currencies) {
@@ -17,3 +18,11 @@ export function TagSelect(props) {
         </select>
     )
 }
+
+TagSelect.propTypes = {
+    currencies: PropTypes.object,
+    className: PropTypes.string,
+    on: PropTypes.func
+}
+
+export {TagSelect}

@@ -10,7 +10,8 @@
     "postinstall": "husky install"
   },
   "dependencies": {
-    "prop-types": "^15.7.2"
+    "prop-types": "^15.7.2",
+    "react-router-dom": "^5.2.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
