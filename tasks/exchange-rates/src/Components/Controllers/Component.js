@@ -1,9 +1,10 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { TagSelect } from '../TagSelect/Component.js'
 import { Input } from '../Input/Component.js'
 import './index.css'
 
-export function Controllers(props) {
+function Controllers(props) {
     return (
         <div className={props.wrapClassName}>
             <div className={props.valuesClassName}>
@@ -31,3 +32,13 @@ export function Controllers(props) {
         </div>
     )
 }
+
+Controllers.propTypes = {
+    wrapClassName: PropTypes.string/*isRequired*/,
+    valuesClassName: PropTypes.string,
+    values: PropTypes.arrayOf(PropTypes.object),
+    currenciesClassName: PropTypes.string,
+    currencies: PropTypes.arrayOf(PropTypes.object),
+}
+
+export {Controllers}
