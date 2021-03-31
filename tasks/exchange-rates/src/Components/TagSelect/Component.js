@@ -13,7 +13,7 @@ function TagSelect(props) {
     }
 
     return (
-        <select className={props.className} onChange={props.on}>
+        <select className={props.className} onChange={props.onChange}>
             {options}
         </select>
     )

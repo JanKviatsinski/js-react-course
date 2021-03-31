@@ -1,14 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import {BrowserRouter as Router} from 'react-router-dom'
-import {ExchangeRates} from './Components/ExchangeRates/Component.js'
-import './index.css'
+import {App} from './Components/App'
 
 ReactDOM.render(
     <Router>
-        <ExchangeRates
-            className='exchange-rates'
-        />
+       <App/>
     </Router>,
 document.getElementById('root')
 )

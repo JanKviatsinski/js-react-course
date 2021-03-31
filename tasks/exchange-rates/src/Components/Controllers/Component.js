@@ -12,7 +12,7 @@ function Controllers(props) {
                     <Input
                         className={curr.className}
                         type={curr.type}
-                        on={curr.on}
+                        onChange={curr.onChange}
                         key={curr.key}
                         value={curr.value}
                     />
@@ -24,8 +24,8 @@ function Controllers(props) {
                 <TagSelect
                     className={curr.className}
                     currencies={curr.currencies}
-                    on={curr.on}
-                    key={curr.key}
+                    onChange={curr.onChange}
+                    key={curr.onChange}
                 />
             ))}
         </div>

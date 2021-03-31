@@ -1,8 +1,4 @@
 import React, {useState} from 'react'
-import {
-    Switch,
-    Route,
-} from  'react-router-dom'
 import PropTypes from 'prop-types'
 import {Controllers} from '../Controllers/Component.js'
 import {CURRENCIES, INITIAL_STRING, URL_GET_RATES, ERROR_STRING} from '../../constants.js'
@@ -15,38 +11,39 @@ function ExchangeRates(props) {
     const [valueTwo, setValueTwo] = useState(0)
     const [string, setString] = useState(INITIAL_STRING)
 
-    const onCurrencyOne = function (e) {
+    const onChangeCurrencyOne = function (e) {
         setCurrencyOne(e.target.value)
-        convertCurrency(valueOne, currencyOne, currencyTwo).then((res) => {
+
+        convertCurrency(valueOne, e.target.value, currencyTwo).then((res) => {
             setValueTwo(res)
-            setString(`${valueOne} ${CURRENCIES[currencyOne]} = ${res} ${CURRENCIES[currencyTwo]}`)
+            setString(`${valueOne} ${CURRENCIES[e.target.value]} = ${res} ${CURRENCIES[currencyTwo]}`)
         })
     }
 
-    const onValueOne = function (e) {
+    const onChangeValueOne = function (e) {
         setValueOne(e.target.value)
-        convertCurrency(valueOne, currencyOne, currencyTwo).then((res) => {
+
+        convertCurrency(e.target.value, currencyOne, currencyTwo).then((res) => {
             setValueTwo(res)
-            setString(`${valueOne} ${CURRENCIES[currencyOne]} = ${res} ${CURRENCIES[currencyTwo]}`)
+            setString(`${e.target.value} ${CURRENCIES[currencyOne]} = ${res} ${CURRENCIES[currencyTwo]}`)
         })
     }
 
-    const onCurrencyTwo = function (e) {
+    const onChangeCurrencyTwo = function (e) {
         setCurrencyTwo(e.target.value)
-        convertCurrency(valueTwo, currencyTwo, currencyOne).then((res) => {
+
+        convertCurrency(valueTwo, e.target.value, currencyOne).then((res) => {
             setValueOne(res)
-            setString(`${valueTwo} ${CURRENCIES[currencyTwo]} = ${res} ${CURRENCIES[currencyOne]}`)
+            setString(`${valueTwo} ${CURRENCIES[e.target.value]} = ${res} ${CURRENCIES[currencyOne]}`)
         })
     }
-    let x = 1
-    const onValueTwo = function (e) {
-        setValueTwo(e.target.value)
-        x = 2
-        console.log(valueTwo, x)
 
-        convertCurrency(valueTwo, currencyTwo, currencyOne).then((res) => {
+    const onChangeValueTwo = function (e) {
+        setValueTwo(e.target.value)
+
+        convertCurrency(e.target.value, currencyTwo, currencyOne).then((res) => {
             setValueOne(res)
-            setString(`${valueTwo} ${CURRENCIES[currencyTwo]} = ${res} ${CURRENCIES[currencyOne]}`)
+            setString(`${e.target.value} ${CURRENCIES[currencyTwo]} = ${res} ${CURRENCIES[currencyOne]}`)
         })
     }
 
@@ -54,7 +51,7 @@ function ExchangeRates(props) {
         try {
             const responseGetRates = await fetch(URL_GET_RATES)
             const dataRates = await responseGetRates.json()
-console.log(value, currencyFrom, currencyTo)
+
             if (dataRates.error) {
                 throw new Error(dataRates.error)
             }
@@ -84,14 +81,14 @@ console.log(value, currencyFrom, currencyTo)
                     {
                         className: 'controllers__value-one',
                         type: 'number',
-                        'on': onValueOne,
+                        onChange: onChangeValueOne,
                         key: 'value-one',
                         value: valueOne
                     },
                     {
                         className: 'controllers__value-two',
                         type: 'number',
-                        'on': onValueTwo,
+                        onChange: onChangeValueTwo,
                         key: 'value-two',
                         value: valueTwo
                     }
@@ -101,13 +98,13 @@ console.log(value, currencyFrom, currencyTo)
                 currencies={[
                     {
                         className: 'controllers__currency-one',
-                        'on': onCurrencyOne,
+                        onChange: onChangeCurrencyOne,
                         key: 'currency-one',
                         currencies: CURRENCIES
                     },
                     {
                         className: 'controllers__currency-two',
-                        'on': onCurrencyTwo,
+                        onChange: onChangeCurrencyTwo,
                         key: 'currency-two',
                         currencies: CURRENCIES
                     },
