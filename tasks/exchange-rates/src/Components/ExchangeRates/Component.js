@@ -1,15 +1,23 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {Controllers} from '../Controllers/Component.js'
 import {CURRENCIES, INITIAL_STRING, URL_GET_RATES, ERROR_STRING} from '../../constants.js'
 import './index.css'
 
 function ExchangeRates(props) {
-    const [currencyOne, setCurrencyOne] = useState(Object.keys(CURRENCIES)[0])
-    const [currencyTwo, setCurrencyTwo] = useState(Object.keys(CURRENCIES)[0])
+    const [currencyOne, setCurrencyOne] = useState(props.currencyOne)
+    const [currencyTwo, setCurrencyTwo] = useState(props.currencyTwo)
+    console.log(props.currencyOne, props.currencyTwo)
     const [valueOne, setValueOne] = useState(0)
     const [valueTwo, setValueTwo] = useState(0)
     const [string, setString] = useState(INITIAL_STRING)
+
+    useEffect(() => {
+        convertCurrency(valueOne, currencyOne, currencyTwo).then((res) => {
+            setValueTwo(res)
+            setString(`${valueOne} ${CURRENCIES[currencyOne]} = ${res} ${CURRENCIES[currencyTwo]}`)
+        })
+    })
 
     const onChangeCurrencyOne = function (e) {
         setCurrencyOne(e.target.value)
