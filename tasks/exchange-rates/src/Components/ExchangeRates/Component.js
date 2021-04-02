@@ -3,14 +3,17 @@ import PropTypes from 'prop-types'
 import {Controllers} from '../Controllers/Component.js'
 import {CURRENCIES, INITIAL_STRING, URL_GET_RATES, ERROR_STRING} from '../../constants.js'
 import './index.css'
+import {
+  useHistory
+} from 'react-router-dom'
 
 function ExchangeRates(props) {
+    const history = useHistory()
     const [currencyOne, setCurrencyOne] = useState(props.currencyOne)
     const [currencyTwo, setCurrencyTwo] = useState(props.currencyTwo)
-    console.log(props.currencyOne, props.currencyTwo)
-    const [valueOne, setValueOne] = useState(0)
-    const [valueTwo, setValueTwo] = useState(0)
-    const [string, setString] = useState(INITIAL_STRING)
+    const [valueOne, setValueOne] = useState(props.valueOne)
+    const [valueTwo, setValueTwo] = useState(props.valueTwo)
+    const [string, setString] = useState(props.string)
 
     useEffect(() => {
         convertCurrency(valueOne, currencyOne, currencyTwo).then((res) => {
@@ -18,6 +21,10 @@ function ExchangeRates(props) {
             setString(`${valueOne} ${CURRENCIES[currencyOne]} = ${res} ${CURRENCIES[currencyTwo]}`)
         })
     })
+
+    const router = function () {
+        history.push(`/widget/${currencyOne}/${currencyTwo}/${valueOne}/${valueTwo}/${string}`)
+    }
 
     const onChangeCurrencyOne = function (e) {
         setCurrencyOne(e.target.value)
@@ -30,8 +37,9 @@ function ExchangeRates(props) {
 
     const onChangeValueOne = function (e) {
         setValueOne(e.target.value)
-
         convertCurrency(e.target.value, currencyOne, currencyTwo).then((res) => {
+            router()
+
             setValueTwo(res)
             setString(`${e.target.value} ${CURRENCIES[currencyOne]} = ${res} ${CURRENCIES[currencyTwo]}`)
         })
