@@ -1,65 +1,79 @@
-import React, {useState, useEffect} from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import {Controllers} from '../Controllers/Component.js'
-import {CURRENCIES, INITIAL_STRING, URL_GET_RATES, ERROR_STRING} from '../../constants.js'
+import {CURRENCIES, URL_GET_RATES, ERROR_STRING} from '../../constants.js'
 import './index.css'
-import {
-  useHistory
-} from 'react-router-dom'
+import {useHistory} from 'react-router-dom'
 
 function ExchangeRates(props) {
     const history = useHistory()
-    const [currencyOne, setCurrencyOne] = useState(props.currencyOne)
-    const [currencyTwo, setCurrencyTwo] = useState(props.currencyTwo)
-    const [valueOne, setValueOne] = useState(props.valueOne)
-    const [valueTwo, setValueTwo] = useState(props.valueTwo)
-    const [string, setString] = useState(props.string)
+    const {currencyOne, currencyTwo, valueOne, valueTwo, string} = props
 
-    useEffect(() => {
-        convertCurrency(valueOne, currencyOne, currencyTwo).then((res) => {
-            setValueTwo(res)
-            setString(`${valueOne} ${CURRENCIES[currencyOne]} = ${res} ${CURRENCIES[currencyTwo]}`)
-        })
-    })
-
-    const router = function () {
+    const showAtAddress = function ({currencyOne, currencyTwo, valueOne, valueTwo, string}) {
         history.push(`/widget/${currencyOne}/${currencyTwo}/${valueOne}/${valueTwo}/${string}`)
     }
 
     const onChangeCurrencyOne = function (e) {
-        setCurrencyOne(e.target.value)
+        const newCurrencyOne = e.target.value
 
-        convertCurrency(valueOne, e.target.value, currencyTwo).then((res) => {
-            setValueTwo(res)
-            setString(`${valueOne} ${CURRENCIES[e.target.value]} = ${res} ${CURRENCIES[currencyTwo]}`)
+        convertCurrency(valueOne, newCurrencyOne, currencyTwo).then((res) => {
+            const newStr = `${valueOne} ${CURRENCIES[newCurrencyOne]} = ${res} ${CURRENCIES[currencyTwo]}`
+
+            showAtAddress({
+                currencyOne: newCurrencyOne,
+                currencyTwo,
+                valueOne,
+                valueTwo: res,
+                string: newStr
+            })
         })
     }
 
     const onChangeValueOne = function (e) {
-        setValueOne(e.target.value)
-        convertCurrency(e.target.value, currencyOne, currencyTwo).then((res) => {
-            router()
+        const newValueOne = e.target.value
 
-            setValueTwo(res)
-            setString(`${e.target.value} ${CURRENCIES[currencyOne]} = ${res} ${CURRENCIES[currencyTwo]}`)
+        convertCurrency(newValueOne, currencyOne, currencyTwo).then((res) => {
+            const newStr = `${newValueOne} ${CURRENCIES[currencyOne]} = ${res} ${CURRENCIES[currencyTwo]}`
+
+            showAtAddress({
+                currencyOne,
+                currencyTwo,
+                valueOne: newValueOne,
+                valueTwo: res,
+                string: newStr
+            })
         })
     }
 
     const onChangeCurrencyTwo = function (e) {
-        setCurrencyTwo(e.target.value)
+        const newCurrencyTwo = e.target.value
 
-        convertCurrency(valueTwo, e.target.value, currencyOne).then((res) => {
-            setValueOne(res)
-            setString(`${valueTwo} ${CURRENCIES[e.target.value]} = ${res} ${CURRENCIES[currencyOne]}`)
+        convertCurrency(valueTwo, newCurrencyTwo, currencyOne).then((res) => {
+            const newStr = `${valueTwo} ${CURRENCIES[newCurrencyTwo]} = ${res} ${CURRENCIES[currencyOne]}`
+
+            showAtAddress({
+                currencyOne,
+                currencyTwo: newCurrencyTwo,
+                valueOne: res,
+                valueTwo,
+                string: newStr
+            })
         })
     }
 
     const onChangeValueTwo = function (e) {
-        setValueTwo(e.target.value)
+        const newValueTwo = e.target.value
 
         convertCurrency(e.target.value, currencyTwo, currencyOne).then((res) => {
-            setValueOne(res)
-            setString(`${e.target.value} ${CURRENCIES[currencyTwo]} = ${res} ${CURRENCIES[currencyOne]}`)
+            const newStr = `${newValueTwo} ${CURRENCIES[currencyTwo]} = ${res} ${CURRENCIES[currencyOne]}`
+
+            showAtAddress({
+                currencyOne,
+                currencyTwo,
+                valueOne: res,
+                valueTwo: newValueTwo,
+                string: newStr
+            })
         })
     }
 
@@ -78,7 +92,7 @@ function ExchangeRates(props) {
             return (+value * toRates / fromRates).toFixed(2)
         } catch (e) {
             console.error(e)
-            setString(ERROR_STRING)
+            alert(ERROR_STRING)
         }
 
     }
@@ -116,13 +130,15 @@ function ExchangeRates(props) {
                         className: 'controllers__currency-one',
                         onChange: onChangeCurrencyOne,
                         key: 'currency-one',
-                        currencies: CURRENCIES
+                        currencies: CURRENCIES,
+                        selected: currencyOne
                     },
                     {
                         className: 'controllers__currency-two',
                         onChange: onChangeCurrencyTwo,
                         key: 'currency-two',
-                        currencies: CURRENCIES
+                        currencies: CURRENCIES,
+                        selected: currencyTwo
                     },
                 ]}
             />

@@ -1,8 +1,9 @@
-import {ExchangeRates} from './ExchangeRates'
-import { X } from  './x'
+
+import { Addresses } from './addresses'
 import {
     Switch,
     Route,
+    Redirect
 } from 'react-router-dom'
 import React from 'react'
 import '../index.css'
@@ -11,31 +12,13 @@ const routes = [
     {
         path: '/',
         isExact: true,
-        component: () => <ExchangeRates
-            currencyOne='USD'
-            currencyTwo='USD'
-            className='exchange-rates'
-        />
+        component: (props) => <Redirect to='/widget'/>
     },
     {
         path: '/widget',
         isExact: false,
-        component: X
-        // component: () => <ExchangeRates
-        //     currencyOne='USD'
-        //     currencyTwo='EUR'
-        //     className='exchange-rates'
-        // />
+        component: Addresses
     },
-    {
-        path: '/widget/USD/EUR',
-        isExact: true,
-        component: () => <ExchangeRates
-            currencyOne='EUR'
-            currencyTwo='USD'
-            className='exchange-rates'
-        />
-    }
 ]
 
 export function App() {

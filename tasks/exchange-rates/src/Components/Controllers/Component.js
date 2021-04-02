@@ -25,7 +25,8 @@ function Controllers(props) {
                     className={curr.className}
                     currencies={curr.currencies}
                     onChange={curr.onChange}
-                    key={curr.onChange}
+                    key={curr.key}
+                    selected={curr.selected}
                 />
             ))}
         </div>
