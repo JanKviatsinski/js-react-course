@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {Controllers} from '../Controllers/Component.js'
 import {CURRENCIES, URL_GET_RATES, ERROR_STRING} from '../../constants.js'
-import './index.css'
 import {useHistory} from 'react-router-dom'
 
 function ExchangeRates(props) {
@@ -13,8 +12,8 @@ function ExchangeRates(props) {
         history.push(`/widget/${currencyOne}/${currencyTwo}/${valueOne}/${valueTwo}/${string}`)
     }
 
-    const onChangeCurrencyOne = function (e) {
-        const newCurrencyOne = e.target.value
+    const onChangeCurrencyOne = function (value) {
+        const newCurrencyOne = value
 
         convertCurrency(valueOne, newCurrencyOne, currencyTwo).then((res) => {
             const newStr = `${valueOne} ${CURRENCIES[newCurrencyOne]} = ${res} ${CURRENCIES[currencyTwo]}`
@@ -29,8 +28,8 @@ function ExchangeRates(props) {
         })
     }
 
-    const onChangeValueOne = function (e) {
-        const newValueOne = e.target.value
+    const onChangeValueOne = function (value) {
+        const newValueOne = value
 
         convertCurrency(newValueOne, currencyOne, currencyTwo).then((res) => {
             const newStr = `${newValueOne} ${CURRENCIES[currencyOne]} = ${res} ${CURRENCIES[currencyTwo]}`
@@ -45,8 +44,8 @@ function ExchangeRates(props) {
         })
     }
 
-    const onChangeCurrencyTwo = function (e) {
-        const newCurrencyTwo = e.target.value
+    const onChangeCurrencyTwo = function (value) {
+        const newCurrencyTwo = value
 
         convertCurrency(valueTwo, newCurrencyTwo, currencyOne).then((res) => {
             const newStr = `${valueTwo} ${CURRENCIES[newCurrencyTwo]} = ${res} ${CURRENCIES[currencyOne]}`
@@ -61,10 +60,10 @@ function ExchangeRates(props) {
         })
     }
 
-    const onChangeValueTwo = function (e) {
-        const newValueTwo = e.target.value
+    const onChangeValueTwo = function (value) {
+        const newValueTwo = value
 
-        convertCurrency(e.target.value, currencyTwo, currencyOne).then((res) => {
+        convertCurrency(newValueTwo, currencyTwo, currencyOne).then((res) => {
             const newStr = `${newValueTwo} ${CURRENCIES[currencyTwo]} = ${res} ${CURRENCIES[currencyOne]}`
 
             showAtAddress({
@@ -94,7 +93,6 @@ function ExchangeRates(props) {
             console.error(e)
             alert(ERROR_STRING)
         }
-
     }
 
     return (

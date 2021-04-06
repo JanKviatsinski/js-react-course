@@ -1,4 +1,3 @@
-
 import { Addresses } from './addresses'
 import {
     Switch,
@@ -27,7 +26,6 @@ export function App() {
             {routes.map(({ path, component, isExact}) => (
                 <Route key={path} path={path} exact={isExact} component={component} />
             ))}
-
             <Route render={() => <div>NOT FOUND PAGE</div>} />
         </Switch>
     )

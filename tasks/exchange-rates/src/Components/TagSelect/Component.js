@@ -1,21 +1,27 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import {Select} from 'antd'
+import 'antd/dist/antd.css'
 
 function TagSelect(props) {
     const options = []
+    const {Option} = Select
 
     for (let currency in props.currencies) {
         options.push(
-            <option key={currency} value={currency} >
+            <Option key={currency} value={currency}>
                 {props.currencies[currency]}
-            </option>
+            </Option>
         )
     }
 
     return (
-        <select className={props.className} onChange={props.onChange} value={props.selected}>
+        <Select
+            style={{width: 120}}
+            onChange={props.onChange}
+            defaultValue={props.selected}>
             {options}
-        </select>
+        </Select>
     )
 }
 

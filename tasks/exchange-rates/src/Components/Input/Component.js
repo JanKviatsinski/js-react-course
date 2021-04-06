@@ -1,9 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import {InputStyled} from './Styled'
 
-export function Input (props){
+function Input (props){
     return (
-        <input className={props.className} type={props.type} value={props.value} onChange={props.onChange}/>
+        <InputStyled
+                     defaultValue={props.value}
+                     onChange={props.onChange} />
     )
 }
 
@@ -13,3 +16,5 @@ Input.propTypes = {
     value: PropTypes.string,
     onChange: PropTypes.func
 }
+
+export {Input}

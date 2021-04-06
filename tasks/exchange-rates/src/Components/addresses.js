@@ -19,6 +19,7 @@ export function Addresses (props) {
                 string={INITIAL_STRING}
                 className='exchange-rates'
             />}/>
+
             <Route path={`${url}/:currencyOne/:currencyTwo/:valueOne/:valueTwo/:string`}
                    component={({match}) =>
                        <ExchangeRates
