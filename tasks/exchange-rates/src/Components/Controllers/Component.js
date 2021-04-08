@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {TagSelect} from '../TagSelect/Component.js'
-import {Input} from '../Input/Component.js'
+import {TagSelect} from '../TagSelect'
+import {Input} from '../Input'
 import { ControllersWrap, ValuesWap, CurrenciesWap } from './Styled'
 
 function Controllers(props) {

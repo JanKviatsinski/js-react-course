@@ -4,7 +4,6 @@ import {
     Route,
 } from 'react-router-dom'
 import {ExchangeRates} from './ExchangeRates'
-import {INITIAL_STRING} from '../constants'
 
 export function Addresses (props) {
     const url = props.match.url
@@ -12,23 +11,15 @@ export function Addresses (props) {
         <Switch>
             <Route path={url} exact component={()=>
                 <ExchangeRates
-                currencyOne='USD'
-                currencyTwo='USD'
-                valueOne='0'
-                valueTwo='0'
-                string={INITIAL_STRING}
-                className='exchange-rates'
+                // currencyOne={Object.keys(CURRENCIES)[0]}
+                // currencyTwo={Object.keys(CURRENCIES)[0]}
             />}/>
 
-            <Route path={`${url}/:currencyOne/:currencyTwo/:valueOne/:valueTwo/:string`}
+            <Route path={`${url}/:currencyOne/:currencyTwo`}
                    component={({match}) =>
                        <ExchangeRates
                            currencyOne={match.params.currencyOne}
                            currencyTwo={match.params.currencyTwo}
-                           valueOne={match.params.valueOne}
-                           valueTwo={match.params.valueTwo}
-                           string={match.params.string}
-                           className='exchange-rates'
                        />
                    }/>
         </Switch>

@@ -5,7 +5,7 @@ import {InputStyled} from './Styled'
 function Input (props){
     return (
         <InputStyled
-                     defaultValue={props.value}
+                     value={props.value}
                      onChange={props.onChange} />
     )
 }
@@ -13,7 +13,7 @@ function Input (props){
 Input.propTypes = {
     className: PropTypes.string,
     type: PropTypes.string,
-    value: PropTypes.string,
+    value: PropTypes.number,
     onChange: PropTypes.func
 }
 
